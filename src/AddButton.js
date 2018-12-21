@@ -1,31 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, {Component} from 'react';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import DreamForm from './DreamForm';
-const styles = theme => ({
-  fab: {
-    margin: theme.spacing.unit,
+
+const fab = {
     position: 'fixed',
     right: '0',
     bottom: '0',
-  },
-});
+};
 
-function FloatingActionButtons(props) {
-  const { classes } = props;
+class AddButton extends Component {
+  render() {
   return (
     <div>
-      <Fab color="primary" aria-label="Add" className={classes.fab} onClick={() => <DreamForm></DreamForm>}>
+      <Fab color="primary" onClick={this.props.handleClick} aria-label="Add" className="fab" style={{fab}}>
         <AddIcon />
       </Fab>
     </div>
   );
+  }
 }
 
-FloatingActionButtons.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(FloatingActionButtons);
+export default AddButton
