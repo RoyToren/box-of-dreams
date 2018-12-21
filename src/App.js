@@ -15,9 +15,11 @@ class App extends Component {
         <header className="App-header">
           ארגז של חלומות
         </header>
+        <body dir="rtl">
         <Dream></Dream>
         <DreamForm createDream={this.state.createDream}></DreamForm>
         <AddButton handleClick={this.newDreamForm}></AddButton>
+        </body>
       </div>
     );
   }
