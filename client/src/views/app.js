@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './css/App.css';
 import Dreams from './Dreams';
-
 class App extends Component {
 
   componentDidMount() {
