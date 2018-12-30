@@ -5,7 +5,6 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import dreamData from './dreamData';
 import AddButton from './AddButton';
 import DreamForm from './DreamForm';
 
@@ -27,7 +26,14 @@ const icon = {
 };
 
 class Dreams extends Component {
-  state = { createDream: false};
+  constructor(props) {
+    super(props);
+    this.state = {
+      createDream: false,
+      data: [],
+      loading: true,
+    };
+  }
 
   discardDream = () => {
     this.setState({createDream: false});
@@ -35,31 +41,53 @@ class Dreams extends Component {
   createNewDream = () => {
     this.setState({createDream: true});
   }
+
+  componentWillMount() {
+    fetch('/dreams')
+      .then(res => res.json())
+      .then(dreams => {
+        if (dreams) {
+          this.setState({
+            data: dreams.data,
+            loading: false,
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
-    return (
-      <div style={{root}}>
-        <GridList cellHeight={180} style={{gridList}}>
-          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-            <ListSubheader component="div">חלומות</ListSubheader>
-          </GridListTile>
-          {dreamData.map(tile => (
-            <GridListTile key={tile.img}>
-              <img src={tile.img} alt={tile.title} />
-              <GridListTileBar
-                title={tile.title}
-                subtitle={<span>מוגשם על ידי: {tile.author}</span>}
-                actionIcon={
-                  <IconButton style={icon}>
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
+    if (!this.state.loading){
+      return (
+        <div style={{root}}>
+          <GridList cellHeight={180} style={{gridList}}>
+            <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+              <ListSubheader component="div">חלומות</ListSubheader>
             </GridListTile>
-          ))}
-        </GridList>
-        <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}></DreamForm>
-        <AddButton handleClick={this.createNewDream}></AddButton>
-      </div>
+            {this.state.data.map(tile => (
+              <GridListTile key={tile.img}>
+                <img src={tile.imageDownloadURL.stringValue} alt={tile.dreamName.stringValue} />
+                <GridListTileBar
+                  title={tile.dreamName.stringValue}
+                  subtitle={<span>האם הוגשם: {tile.isDone.booleanValue ? 'כן' : 'לא'}</span>}
+                  actionIcon={
+                    <IconButton style={icon}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </GridListTile>
+            ))}
+          </GridList>
+          <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}></DreamForm>
+          <AddButton handleClick={this.createNewDream}></AddButton>
+        </div>
+      );
+    }
+    return (
+      <div style={{root}}></div>
     );
   }
 }
