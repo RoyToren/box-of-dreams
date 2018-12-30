@@ -6,6 +6,8 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import dreamData from './dreamData';
+import AddButton from './AddButton';
+import DreamForm from './DreamForm';
 
 const root = {
   display: 'flex',
@@ -25,6 +27,14 @@ const icon = {
 };
 
 class Dreams extends Component {
+  state = { createDream: false};
+
+  discardDream = () => {
+    this.setState({createDream: false});
+  }
+  createNewDream = () => {
+    this.setState({createDream: true});
+  }
   render() {
     return (
       <div style={{root}}>
@@ -47,6 +57,8 @@ class Dreams extends Component {
             </GridListTile>
           ))}
         </GridList>
+        <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}></DreamForm>
+        <AddButton handleClick={this.createNewDream}></AddButton>
       </div>
     );
   }

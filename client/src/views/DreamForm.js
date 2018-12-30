@@ -10,10 +10,10 @@ import red from '@material-ui/core/colors/red';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import SaveIcon from '@material-ui/icons/Save';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExitToApp from '@material-ui/icons/ExitToApp';
+import CloseIcon from '@material-ui/icons/CloseSharp';
 import { TextField } from '@material-ui/core';
 
 const styles = theme => ({
@@ -79,8 +79,8 @@ class SimpleModal extends React.Component {
         <Modal style={{overflow: 'auto'}} open={this.props.createDream} onClose={this.handleClose}>
           <div className={classes.paper}>
             <Card className={classes.card}>
-              <IconButton style={{float: 'left'}}>
-                <ExitToApp />
+              <IconButton onClick={this.props.exitCard} style={{float: 'left'}}>
+                <CloseIcon />
               </IconButton>
               <CardHeader
                 title="הוסף חלום"
@@ -90,24 +90,46 @@ class SimpleModal extends React.Component {
           image="/static/images/cards/paella.jpg"
           title="Paella dish"
         /> */}
-              <TextField
-                id="standard-name"
-                label="שם"
-                className={classes.textField}
-                /* value={this.state.name}
-          onChange={this.handleChange('name')} */
-                margin="normal"
-              />
               <CardContent>
-                <Typography component="p">
-          שלום
-                </Typography>
+                <TextField
+                  id="dreamName"
+                  label="שם חלום"
+                  className={classes.textField}
+                  /* value={this.state.name}
+          onChange={this.handleChange('name')} */
+                  margin="normal"
+                />
+                <TextField
+                  id="description"
+                  label="תיאור"
+                  className={classes.textField}
+                  /* value={this.state.name}
+          onChange={this.handleChange('name')} */
+                  margin="normal"
+                />
+                <TextField
+                  id="tasksForDream"
+                  label="בכדי להגשים צריך:"
+                  className={classes.textField}
+                  /* value={this.state.name}
+          onChange={this.handleChange('name')} */
+                  margin="normal"
+                />
+                <TextField
+                  id="finishDate"
+                  label="תאריך יעד"
+                  className={classes.textField}
+                  /* value={this.state.name}
+          onChange={this.handleChange('name')} */
+                  margin="normal"
+                />
+
               </CardContent>
               <CardActions className={classes.actions} disableActionSpacing>
-                <IconButton aria-label="Add to favorites">
-                  <FavoriteIcon />
+                <IconButton aria-label="save form">
+                  <SaveIcon/>
                 </IconButton>
-                <IconButton aria-label="Share">
+                {/*                 <IconButton aria-label="Share">
                   <ShareIcon />
                 </IconButton>
                 <IconButton
@@ -119,9 +141,9 @@ class SimpleModal extends React.Component {
                   aria-label="Show more"
                 >
                   <ExpandMoreIcon />
-                </IconButton>
+                </IconButton> */}
               </CardActions>
-              <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+              {/*  <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                   <Typography textbox>
               Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
@@ -137,7 +159,7 @@ class SimpleModal extends React.Component {
               Set aside off of the heat to let rest for 10 minutes, and then serve.
                   </Typography>
                 </CardContent>
-              </Collapse>
+              </Collapse> */}
             </Card>
           </div>
         </Modal>
