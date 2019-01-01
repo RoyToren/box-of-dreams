@@ -7,6 +7,7 @@ app.use(express.json());
 
 // Import Routes directory
 require('./routes')(app);
+require('./services/mailService')(app);
 
 app.get('/', (req, res) => {
   res.send('PORT 5000');
