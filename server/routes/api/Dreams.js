@@ -12,7 +12,7 @@ module.exports = (app) => {
   var db = admin.firestore();
   let query = db.collection('Dreams');
 
-  app.get('/dreams', function(req, res){
+  app.get('/getDreams', function(req, res){
     query.get().then(querySnapshot => {
       var data = [];
       querySnapshot.docs.forEach(document => {
@@ -21,4 +21,9 @@ module.exports = (app) => {
       res.send({data});
     });
   });
+  app.post('/saveDream', function(req, res){
+    var x = req;
+    res.send('yay');
+  });
+
 };

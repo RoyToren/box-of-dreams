@@ -5,17 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
-            "request": "attach",
-            "name": "Attach to Chrome",
-            "port": 9222,
-            "webRoot": "${workspaceFolder}/client\\src\\views\\index.js"
-        },
-        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/server\\routes\\api\\Dreams.js"
+            "program": "${workspaceFolder}/server\\server.js"
         }
     ]
 }

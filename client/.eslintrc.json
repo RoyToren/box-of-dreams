@@ -5,7 +5,8 @@
   },
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "fetch" : true
   },
   "extends": [
   	"plugin:react/recommended"

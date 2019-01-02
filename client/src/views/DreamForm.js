@@ -56,111 +56,175 @@ const styles = theme => ({
 });
 
 class SimpleModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+      dream: {
+        creation: null,
+        dreamName: '',
+        dreamDescription: '',
+        dreamStages: '',
+        isDone: false,
+        imageDownloadURL: 'https://firebasestorage.googleapis.com/v0/b/boxofdreams-e7838.appspot.com/o/dreams_images%2Fdream.jpg?alt=media&token=b1698c6b-9ee5-40be-b060-d2fc2222cd76',
+      },
+    };
+    this.handleNameChange.bind(this);
+    this.handleDescriptionChange.bind(this);
+    this.handleStagesChange.bind(this);
+    this.handleSave.bind(this);
+
+  }
   handleClose = () => {
     this.setState({ open: false });
+
+  };
+  handleSave = () => {
+    fetch('/saveDream', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.state.dream),
+    })
+      .then(function(data){
+        console.log(data);
+      });
   };
 
-  state = { expanded: false };
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
+  handleNameChange = (event) => {
+    this.setState({ dream: {dreamName: event.target.value}});
   };
 
+  handleDescriptionChange = (event) => {
+    this.setState({ dream: {dreamDescription: event.target.value}});
+  };
+  handleStagesChange = (event) => {
+    this.setState({ dream: {dreamStages: event.target.value}});
+  };
   render() {
     const { classes } = this.props;
 
     return (
-      <div>
-        <Modal style={{overflow: 'auto'}} open={this.props.createDream} onClose={this.handleClose}>
-          <div className={classes.paper}>
-            <Card className={classes.card}>
-              <IconButton onClick={this.props.exitCard} style={{float: 'left'}}>
-                <CloseIcon />
-              </IconButton>
-              <CardHeader
-                title="הוסף חלום"
-              />
-              {/*         <CardMedia
+      <form>
+        <div>
+          <Modal style={{overflow: 'auto'}} open={this.props.createDream} onClose={this.handleClose}>
+            <div className={classes.paper}>
+              <Card className={classes.card}>
+                <IconButton onClick={this.props.exitCard} style={{float: 'left'}}>
+                  <CloseIcon />
+                </IconButton>
+                <CardHeader
+                  title="הוסף חלום"
+                />
+                {/*         <CardMedia
           className={classes.media}
           image="/static/images/cards/paella.jpg"
           title="Paella dish"
         /> */}
-              <CardContent>
-                <TextField
-                  id="dreamName"
-                  label="שם חלום"
-                  className={classes.textField}
-                  /* value={this.state.name}
-          onChange={this.handleChange('name')} */
-                  margin="normal"
-                />
-                <TextField
-                  id="description"
-                  label="תיאור"
-                  className={classes.textField}
-                  /* value={this.state.name}
-          onChange={this.handleChange('name')} */
-                  margin="normal"
-                />
-                <TextField
-                  id="tasksForDream"
-                  label="בכדי להגשים צריך:"
-                  className={classes.textField}
-                  /* value={this.state.name}
-          onChange={this.handleChange('name')} */
-                  margin="normal"
-                />
-                <TextField
-                  id="finishDate"
-                  label="תאריך יעד"
-                  className={classes.textField}
-                  /* value={this.state.name}
-          onChange={this.handleChange('name')} */
-                  margin="normal"
-                />
-
-              </CardContent>
-              <CardActions className={classes.actions} disableActionSpacing>
-                <IconButton aria-label="save form">
-                  <SaveIcon/>
-                </IconButton>
-                {/*                 <IconButton aria-label="Share">
-                  <ShareIcon />
-                </IconButton>
-                <IconButton
-                  className={classnames(classes.expand, {
-                    [classes.expandOpen]: this.state.expanded,
-                  })}
-                  onClick={this.handleExpandClick}
-                  aria-expanded={this.state.expanded}
-                  aria-label="Show more"
-                >
-                  <ExpandMoreIcon />
-                </IconButton> */}
-              </CardActions>
-              {/*  <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <Typography textbox>
-              Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-              minutes.
-                  </Typography>
-                  <Typography paragraph>
-            ככה
-                  </Typography>
-                  <Typography paragraph>
-            וגם ככה
-                  </Typography>
-                  <Typography>
-              Set aside off of the heat to let rest for 10 minutes, and then serve.
-                  </Typography>
+                  <TextField
+                    id="dreamName"
+                    label="שם חלום"
+                    className={classes.textField}
+                    value={this.state.dream.dreamName}
+                    onChange={this.handleNameChange}
+                    margin="normal"
+                  />
+                  <TextField
+                    id="dreamDescription"
+                    label="תיאור"
+                    className={classes.textField}
+                    value={this.state.dream.dreamDescription}
+                    onChange={this.handleDescriptionChange}
+                    margin="normal"
+                  />
+                  <TextField
+                    id="dreamStages"
+                    label="בכדי להגשים צריך:"
+                    className={classes.textField}
+                    value={this.state.dream.dreamStages}
+                    onChange={this.handleStagesChange}
+                    margin="normal"
+                  />
+                  <TextField
+                    id="finishDate"
+                    label="תאריך יעד"
+                    className={classes.textField}
+                    /* value={this.state.name}
+          onChange={this.handleChange('name')} */
+                    margin="normal"
+                  />
+
                 </CardContent>
-              </Collapse> */}
-            </Card>
-          </div>
-        </Modal>
-      </div>
+                <CardActions className={classes.actions} disableActionSpacing>
+                  <IconButton type="submit" aria-label="save form" onClick={this.handleSave()}>
+                    <SaveIcon/>
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </div>
+          </Modal>
+        </div>
+      </form>
     );
   }
 }
 
 export default withStyles(styles)(SimpleModal);
+
+
+/* import React from 'react';
+
+export class ReactForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        username: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+    };
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    fetch('http://example.com/movies.json', {
+      body: JSON.stringify(this.state),
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      referrer: 'no-referrer',
+    })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          alert('Saved');
+        } else {
+          alert('Issues saving');
+        }
+        // you cannot parse your "success" response, since that is not a valid JSON
+        // consider using valid JSON req/resp pairs.
+        // return response.json();
+      });
+
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.onSubmit.bind()}>
+        <input type="text" name="username" onChange={e => this.setState({username: e.target.value})}/>
+        <input type="password" name="password" onChange={e => this.setState({password: e.target.value})}/>
+        <input type="text" name="first_name" onChange={e => this.setState({first_name: e.target.value})}/>
+        <input type="text" name="last_name" onChange={e => this.setState({last_name: e.target.value})}/>
+        <button type="submit">Submit</button>
+      </form>
+    );
+  }
+} */

@@ -43,7 +43,7 @@ class Dreams extends Component {
   }
 
   componentWillMount() {
-    fetch('/dreams')
+    fetch('/getDreams')
       .then(res => res.json())
       .then(dreams => {
         if (dreams) {
