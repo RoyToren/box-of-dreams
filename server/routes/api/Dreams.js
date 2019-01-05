@@ -22,8 +22,13 @@ module.exports = (app) => {
     });
   });
   app.post('/saveDream', function(req, res){
-    var x = req;
-    res.send('yay');
+    if (req.body.dream) {
+      query.doc('roy').set(req.body.dream);
+      res.send('yay');
+    } else {
+      res.send('poop');
+    }
+
   });
 
 };

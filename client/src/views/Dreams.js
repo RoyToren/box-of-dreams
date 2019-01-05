@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -42,6 +43,17 @@ class Dreams extends Component {
     this.setState({createDream: true});
   }
 
+  handleSave = (dream) => {
+    axios.post('/saveDream', {
+      dream,
+    })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
   componentWillMount() {
     fetch('/getDreams')
       .then(res => res.json())
@@ -81,7 +93,8 @@ class Dreams extends Component {
               </GridListTile>
             ))}
           </GridList>
-          <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}></DreamForm>
+          <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}
+            saveDream={this.handleSave}></DreamForm>
           <AddButton handleClick={this.createNewDream}></AddButton>
         </div>
       );
