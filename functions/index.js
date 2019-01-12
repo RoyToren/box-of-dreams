@@ -5,14 +5,14 @@ const port = 5000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(__dirname + './../client/build')); //serves the index.html
+app.use(express.static(__dirname + '/client/build')); //serves the index.html
 
 // Import Routes directory
 require('./routes')(app);
 require('./services/mailService')(app);
 app.get('/', (req, res) => {
   //res.send('hello');
-  res.sendFile(__dirname + './../client/build/index.html');
+  res.sendFile(__dirname + '/client/build/index.html');
 });
 
 app.listen(port, (err) => {
