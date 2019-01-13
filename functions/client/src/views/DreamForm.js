@@ -10,7 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/CloseSharp';
 import { TextField } from '@material-ui/core';
-
+import ImageDrop from './ImageDrop';
+import ReactDropZone from 'react-dropzone';
 const styles = theme => ({
   paper: {
     position: 'absolute',
@@ -89,12 +90,7 @@ class SimpleModal extends React.Component {
               <CardHeader
                 title="הוסף חלום"
               />
-              {/*         <CardMedia
-          className={classes.media}
-          image="/static/images/cards/paella.jpg"
-          title="Paella dish"
-        /> */}
-
+              <ImageDrop></ImageDrop>
               <form onSubmit={this.handleSubmit}>
                 <CardContent>
                   <TextField id="dreamName" label="שם חלום" className={classes.textField}
