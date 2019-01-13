@@ -90,9 +90,9 @@ class SimpleModal extends React.Component {
               <CardHeader
                 title="הוסף חלום"
               />
-              <ImageDrop></ImageDrop>
               <form onSubmit={this.handleSubmit}>
                 <CardContent>
+                <ImageDrop></ImageDrop>
                   <TextField id="dreamName" label="שם חלום" className={classes.textField}
                     onChange={e => this.setState({dreamName: e.target.value})} margin="normal"/>
                   <TextField id="dreamDescription" label="תיאור" className={classes.textField}
