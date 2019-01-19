@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import AddButton from './AddButton';
 import DreamForm from './DreamForm';
+import FormData from 'form-data';
+
 
 const root = {
   display: 'flex',
@@ -44,13 +46,27 @@ class Dreams extends Component {
   }
 
   handleSave = (dream) => {
+    var avatar = new FormData();
+    avatar.append('avatar', dream.files[0]);
+
+    axios.post('/saveDreamImage', avatar , {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    dream.files = undefined;
     axios.post('/saveDream', {
       dream,
-    })
-      .then(function(response) {
+    }).then((response) => {
         console.log(response);
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log(error);
       });
   }

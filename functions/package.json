@@ -15,18 +15,19 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "dependencies": {
-    "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.1.0",
     "concurrently": "^3.5.1",
     "es6-promise": "^4.2.5",
     "express": "^4.16.4",
+    "firebase-admin": "~6.0.0",
+    "firebase-functions": "^2.1.0",
     "isomorphic-fetch": "^2.2.1",
+    "module-alias": "2.0.6",
+    "multer": "^1.4.1",
     "node-fetch": "^2.3.0",
     "nodemailer": "^5.1.1",
     "nodemon": "^1.18.9",
     "react-router-dom": "^4.3.1",
-    "redux-saga": "^0.16.0",
-    "module-alias": "2.0.6"
+    "redux-saga": "^0.16.0"
   },
   "devDependencies": {
     "eslint": "^4.12.0",

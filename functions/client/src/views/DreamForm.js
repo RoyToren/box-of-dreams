@@ -11,7 +11,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/CloseSharp';
 import { TextField } from '@material-ui/core';
 import ImageDrop from './ImageDrop';
-import ReactDropZone from 'react-dropzone';
 const styles = theme => ({
   paper: {
     position: 'absolute',
@@ -65,9 +64,11 @@ class SimpleModal extends React.Component {
       dreamDescription: '',
       dreamStages: '',
       isDone: false,
+      files: [],
       imageDownloadURL: 'https://firebasestorage.googleapis.com/v0/b/boxofdreams-e7838.appspot.com/o/dreams_images%2Fdream.jpg?alt=media&token=b1698c6b-9ee5-40be-b060-d2fc2222cd76',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleImageInput = this.handleImageInput.bind(this);
   }
 
   handleSubmit(event) {
@@ -76,6 +77,11 @@ class SimpleModal extends React.Component {
     this.props.exitCard();
     this.setState({});
   }
+
+  handleImageInput(value) {
+    this.setState({files: value})
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -92,7 +98,7 @@ class SimpleModal extends React.Component {
               />
               <form onSubmit={this.handleSubmit}>
                 <CardContent>
-                <ImageDrop></ImageDrop>
+                <ImageDrop onChange={this.handleImageInput}></ImageDrop>
                   <TextField id="dreamName" label="שם חלום" className={classes.textField}
                     onChange={e => this.setState({dreamName: e.target.value})} margin="normal"/>
                   <TextField id="dreamDescription" label="תיאור" className={classes.textField}

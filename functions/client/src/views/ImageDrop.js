@@ -65,6 +65,7 @@ class ImageDrop extends Component {
         preview: URL.createObjectURL(file)
       }))
     });
+    this.props.onChange(files);
   }
 
   componentWillUnmount() {
