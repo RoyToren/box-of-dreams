@@ -27,6 +27,7 @@ module.exports = (app) => {
   });
   app.post('/saveDream', function(req, res){
     if (req.body.dream) {
+      req.body.dream.creation = new Date().toLocaleString();
       query.add(req.body.dream).then(ref => {
         console.log('added dream');
       });

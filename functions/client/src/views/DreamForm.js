@@ -63,6 +63,7 @@ class SimpleModal extends React.Component {
       dreamName: '',
       dreamDescription: '',
       dreamStages: '',
+      targetFinishDate: null,
       isDone: false,
       files: [],
       imageDownloadURL: 'https://firebasestorage.googleapis.com/v0/b/boxofdreams-e7838.appspot.com/o/dreams_images%2Fdream.jpg?alt=media&token=b1698c6b-9ee5-40be-b060-d2fc2222cd76',
@@ -105,7 +106,8 @@ class SimpleModal extends React.Component {
                     onChange={e => this.setState({dreamDescription: e.target.value})} margin="normal"/>
                   <TextField id="dreamStages" label="בכדי להגשים צריך:" className={classes.textField}
                     onChange={e => this.setState({dreamStages: e.target.value})} margin="normal"/>
-                  <TextField id="finishDate" label="תאריך יעד" className={classes.textField} margin="normal"/>
+                  <TextField id="finishDate" label="תאריך יעד" type="date" className={classes.textField} 
+                  onChange={e => this.setState({targetFinishDate: e.target.value})} margin="normal"/>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
                   <IconButton type='submit' aria-label="save form" >
