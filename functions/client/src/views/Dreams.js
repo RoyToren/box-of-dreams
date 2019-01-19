@@ -4,11 +4,11 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
+import ToggleButton from '@material-ui/core/Switch';
 import AddButton from './AddButton';
 import DreamForm from './DreamForm';
 import FormData from 'form-data';
+import DreamTile from "./DreamTile";
 
 
 const root = {
@@ -43,6 +43,17 @@ class Dreams extends Component {
   }
   createNewDream = () => {
     this.setState({createDream: true});
+  }
+
+  handleCheckedDream = (checkedDream) => {
+    axios.post('/toggleDreamIsDone', {
+      checkedDream,
+      }).then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }
 
   handleSave = (dream) => {
@@ -95,18 +106,7 @@ class Dreams extends Component {
               <ListSubheader component="div">חלומות</ListSubheader>
             </GridListTile>
             {this.state.data.map(tile => (
-              <GridListTile key={tile.img}>
-                <img src={tile.imageDownloadURL.stringValue} alt={tile.dreamName.stringValue} />
-                <GridListTileBar
-                  title={tile.dreamName.stringValue}
-                  subtitle={<span>האם הוגשם: {tile.isDone.booleanValue ? 'כן' : 'לא'}</span>}
-                  actionIcon={
-                    <IconButton style={icon}>
-                      <InfoIcon />
-                    </IconButton>
-                  }
-                />
-              </GridListTile>
+              <DreamTile dream={tile} handleCheckedDream={this.handleCheckedDream}></DreamTile>
             ))}
           </GridList>
           <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}

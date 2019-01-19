@@ -20,13 +20,16 @@ module.exports = (app) => {
     query.get().then(querySnapshot => {
       var data = [];
       querySnapshot.docs.forEach(document => {
-        data.push(document._fieldsProto);
+        var dream = document._fieldsProto;
+        dream.id = document.id;
+        data.push(dream);
       });
       res.send({data});
     });
   });
   app.post('/saveDream', function(req, res){
     if (req.body.dream) {
+      //var FieldValue = require('firebase-admin').firestore.FieldValue;
       req.body.dream.creation = new Date().toLocaleString();
       query.add(req.body.dream).then(ref => {
         console.log('added dream');
@@ -36,6 +39,18 @@ module.exports = (app) => {
       res.send('poop');
     }
   });
+  app.post('/toggleDreamIsDone', function(req, res){
+    if (req.body.checkedDream) {
+      var firebaseRes = query.doc(req.body.checkedDream.id)
+          .update({isDone: !req.body.checkedDream.isDone.booleanValue}).then(ref => {
+            console.log('changed isDone');
+          });
+      res.send('yay');
+    } else {
+      res.send('poop');
+    }
+  });
+  
 
   app.post('/saveDreamImage', upload.single('avatar'), function(req, res){
       if(req.file)
