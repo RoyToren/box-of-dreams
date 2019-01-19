@@ -16,7 +16,6 @@ class DreamTile extends Component {
 
   render() {
     return (
-      <div>
         <form onSubmit={this.handleSubmit}>
         <GridListTile key={this.props.dream.img}>
                 <img src={this.props.dream.imageDownloadURL.stringValue} alt={this.props.dream.dreamName.stringValue} />
@@ -30,7 +29,6 @@ class DreamTile extends Component {
                 />
               </GridListTile>
           </form>
-      </div>
     );
   }
 }

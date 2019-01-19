@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import ReactDropZone from "react-dropzone";
 
 
@@ -80,6 +80,7 @@ class ImageDrop extends Component {
           <img
             src={file.preview}
             style={img}
+            alt={'תמונת חלום'}
           />
         </div>
       </div>

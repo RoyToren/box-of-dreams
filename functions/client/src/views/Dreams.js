@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ToggleButton from '@material-ui/core/Switch';
 import AddButton from './AddButton';
 import DreamForm from './DreamForm';
 import FormData from 'form-data';
@@ -24,9 +22,6 @@ const gridList = {
   height: '-webkit-fill-available',
 };
 
-const icon = {
-  color: 'rgba(255, 255, 255, 0.54)',
-};
 
 class Dreams extends Component {
   constructor(props) {
@@ -106,7 +101,7 @@ class Dreams extends Component {
               <ListSubheader component="div">חלומות</ListSubheader>
             </GridListTile>
             {this.state.data.map(tile => (
-              <DreamTile dream={tile} handleCheckedDream={this.handleCheckedDream}></DreamTile>
+              <DreamTile key={tile.id} dream={tile} handleCheckedDream={this.handleCheckedDream}></DreamTile>
             ))}
           </GridList>
           <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}
