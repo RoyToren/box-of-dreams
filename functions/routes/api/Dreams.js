@@ -27,13 +27,9 @@ module.exports = (app) => {
   });
   app.post('/saveDream', function(req, res){
     if (req.body.dream) {
-      if(req.body.dream.files)
-      {
-        storageRef.put(file).then(function(snapshot) {
-          console.log('Uploaded a blob or file!');
-        });
-      }
-      query.doc('roy').set(req.body.dream);
+      query.add(req.body.dream).then(ref => {
+        console.log('added dream');
+      });
       res.send('yay');
     } else {
       res.send('poop');
