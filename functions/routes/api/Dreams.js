@@ -40,11 +40,11 @@ module.exports = (app) => {
   });
   app.post('/toggleDreamIsDone', function(req, res){
     if (req.body.checkedDream) {
-      var firebaseRes = query.doc(req.body.checkedDream.id)
+      query.doc(req.body.checkedDream.id)
           .update({isDone: !req.body.checkedDream.isDone.booleanValue}).then(ref => {
             console.log('changed isDone');
+            res.send(true);
           });
-      res.send('yay');
     } else {
       res.send('poop');
     }

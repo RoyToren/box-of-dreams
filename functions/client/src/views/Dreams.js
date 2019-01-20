@@ -31,6 +31,8 @@ class Dreams extends Component {
       data: [],
       loading: true,
     };
+    this.loader = this.loader.bind(this);
+
   }
 
   discardDream = () => {
@@ -43,12 +45,28 @@ class Dreams extends Component {
   handleCheckedDream = (checkedDream) => {
     axios.post('/toggleDreamIsDone', {
       checkedDream,
-      }).then((response) => {
-          console.log(response);
+      }).then(() => {
+        this.loader();
         })
         .catch((error) => {
           console.log(error);
         });
+  }
+
+  loader = function() {
+    fetch('/getDreams')
+      .then(res => res.json())
+      .then(dreams => {
+        if (dreams) {
+          this.setState({
+            data: dreams.data,
+            loading: false,
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleSave = (dream) => {
@@ -65,31 +83,18 @@ class Dreams extends Component {
     axios.post('/saveDream', {
       dream,
     }).then((response) => {
-        console.log(response);
+      this.loader();
       })
       .catch((error) => {
         console.log(error);
       });
-      return "hi";
     })
     .catch((error) => {
       console.log(error);
     });
   }
   componentWillMount() {
-    fetch('/getDreams')
-      .then(res => res.json())
-      .then(dreams => {
-        if (dreams) {
-          this.setState({
-            data: dreams.data,
-            loading: false,
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.loader();
   }
 
   render() {
