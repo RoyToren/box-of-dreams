@@ -60,13 +60,8 @@ class Dreams extends Component {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-    dream.files = undefined;
+      dream.files = undefined;
+      dream.imageDownloadURL = response.data;
     axios.post('/saveDream', {
       dream,
     }).then((response) => {
@@ -75,6 +70,11 @@ class Dreams extends Component {
       .catch((error) => {
         console.log(error);
       });
+      return "hi";
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
   componentWillMount() {
     fetch('/getDreams')

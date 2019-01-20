@@ -29,7 +29,6 @@ module.exports = (app) => {
   });
   app.post('/saveDream', function(req, res){
     if (req.body.dream) {
-      //var FieldValue = require('firebase-admin').firestore.FieldValue;
       req.body.dream.creation = new Date().toLocaleString();
       query.add(req.body.dream).then(ref => {
         console.log('added dream');
@@ -55,9 +54,14 @@ module.exports = (app) => {
   app.post('/saveDreamImage', upload.single('avatar'), function(req, res){
       if(req.file)
       {
+        
         storageRef.upload(req.file.path, { destination: 'dreams_images/'+req.file.originalname }).then(function(snapshot) {
-          console.log('Uploaded a blob or file!');
-          res.send('yay');
+          snapshot[0].bucket.file(snapshot[1].name).getSignedUrl({
+            action: 'read',
+            expires: '03-09-2500'
+          }).then(function(signedUrl){
+            res.send(signedUrl[0]);
+          }); 
         });
       }
      else {
