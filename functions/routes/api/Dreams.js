@@ -14,10 +14,11 @@ module.exports = (app) => {
 
   var db = admin.firestore();
   var storageRef = admin.storage().bucket();
-  let query = db.collection('Dreams');
+  let dreamQuery = db.collection('Dreams');
+  let paramsQuery = db.collection('Params');
 
   app.get('/getDreams', function(req, res){
-    query.get().then(querySnapshot => {
+    dreamQuery.get().then(querySnapshot => {
       var data = [];
       querySnapshot.docs.forEach(document => {
         var dream = document._fieldsProto;
@@ -27,10 +28,21 @@ module.exports = (app) => {
       res.send({data});
     });
   });
+  app.post('/authenticate', function(req, res){
+    if (req.body.authenticate != '') {
+      paramsQuery.doc('password').get().then(querySnapshot => {
+        if(req.body.password === querySnapshot._fieldsProto.password.stringValue)
+        {
+          res.send(true);
+        }
+        res.send('poop');
+      });
+    }
+  });
   app.post('/saveDream', function(req, res){
     if (req.body.dream) {
       req.body.dream.creation = new Date().toLocaleString();
-      query.add(req.body.dream).then(ref => {
+      dreamQuery.add(req.body.dream).then(ref => {
         console.log('added dream');
       });
       res.send('yay');
@@ -40,7 +52,7 @@ module.exports = (app) => {
   });
   app.post('/toggleDreamIsDone', function(req, res){
     if (req.body.checkedDream) {
-      query.doc(req.body.checkedDream.id)
+      dreamQuery.doc(req.body.checkedDream.id)
           .update({isDone: !req.body.checkedDream.isDone.booleanValue}).then(ref => {
             console.log('changed isDone');
             res.send(true);
