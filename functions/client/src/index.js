@@ -4,10 +4,9 @@ import './views/css/styles.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Views
-import { App } from './views/app';
-
+import { StartFirebaseUI } from './views/firebase';
 ReactDOM.render(
   <Router>
-    <Route exact path='/' component={App}/>
+    <Route exact path='/' component={StartFirebaseUI}/>
   </Router>
   , document.getElementById('root'));

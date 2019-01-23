@@ -16,8 +16,9 @@ module.exports = (app) => {
   var storageRef = admin.storage().bucket();
   let dreamQuery = db.collection('Dreams');
   let paramsQuery = db.collection('Params');
+  let usersQuery = db.collection('Users');
 
-  app.get('/getDreams', function(req, res){
+  app.get('/getDreams', (req, res) => {
     dreamQuery.get().then(querySnapshot => {
       var data = [];
       querySnapshot.docs.forEach(document => {
@@ -28,18 +29,61 @@ module.exports = (app) => {
       res.send({data});
     });
   });
-  app.post('/authenticate', function(req, res){
-    if (req.body.authenticate != '') {
+
+  app.post('/authenticate', (req, res) => {
+    if (req.body.authData.password !== '') {
       paramsQuery.doc('password').get().then(querySnapshot => {
-        if(req.body.password === querySnapshot._fieldsProto.password.stringValue)
+        if(req.body.authData.password === querySnapshot._fieldsProto.password.stringValue)
         {
-          res.send(true);
+          usersQuery.doc(req.body.authData.user.email)
+          .update({isAuthenticated: true}).then(ref => {
+            console.log('changed isDone');
+            res.send(true);
+          });
+        }
+        else
+        {
+          res.send('wrong password');
         }
         res.send('poop');
       });
     }
   });
-  app.post('/saveDream', function(req, res){
+
+  app.post('/checkAuth', (req, res) => {
+    if (req.body.user) {
+      usersQuery.doc(req.body.user.email).get().then(querySnapshot => {
+        res.send(querySnapshot._fieldsProto.isAuthenticated.booleanValue);
+      });
+    }
+  });
+
+  app.post('/saveUser', (req, res) => {
+    if (req.body.user) {
+      usersQuery.doc(req.body.user.email).get().then(querySnapshot => {
+        if(querySnapshot.exists) {
+          res.send(true);
+        } else {
+          usersQuery.doc(req.body.user.email).set({
+            isAuthenticated: false,
+        })
+        .then(() => {
+            res.send('yay');
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+        }
+        
+        
+      })
+    
+    } else {
+      res.send('poop');
+    }
+  });
+  app.post('/saveDream', (req, res) => {
     if (req.body.dream) {
       req.body.dream.creation = new Date().toLocaleString();
       dreamQuery.add(req.body.dream).then(ref => {
@@ -50,7 +94,8 @@ module.exports = (app) => {
       res.send('poop');
     }
   });
-  app.post('/toggleDreamIsDone', function(req, res){
+
+  app.post('/toggleDreamIsDone', (req, res) => {
     if (req.body.checkedDream) {
       dreamQuery.doc(req.body.checkedDream.id)
           .update({isDone: !req.body.checkedDream.isDone.booleanValue}).then(ref => {
@@ -63,15 +108,15 @@ module.exports = (app) => {
   });
   
 
-  app.post('/saveDreamImage', upload.single('avatar'), function(req, res){
+  app.post('/saveDreamImage', upload.single('avatar'), (req, res) => {
       if(req.file)
       {
         
-        storageRef.upload(req.file.path, { destination: 'dreams_images/'+req.file.originalname }).then(function(snapshot) {
+        storageRef.upload(req.file.path, { destination: 'dreams_images/'+req.file.originalname }).then((snapshot) => {
           snapshot[0].bucket.file(snapshot[1].name).getSignedUrl({
             action: 'read',
             expires: '03-09-2500'
-          }).then(function(signedUrl){
+          }).then((signedUrl) => {
             res.send(signedUrl[0]);
           }); 
         });
