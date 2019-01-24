@@ -4,16 +4,10 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import {firebaseConfig} from './../firebaseConf'
 // Views
 import { App } from './app';
-const config = ({
-        apiKey: "AIzaSyC6tSkP0HT9TuLFconZXcrIKvGnkdRMwWk",
-        authDomain: "boxofdreams-e7838.firebaseapp.com",
-        databaseURL: "https://boxofdreams-e7838.firebaseio.com",
-        projectId: "boxofdreams-e7838",
-        storageBucket: "boxofdreams-e7838.appspot.com",
-        messagingSenderId: "1016224671288"
-})
+const config = firebaseConfig;
 
 // This must run before any other firebase functions
 firebase.initializeApp(config)
