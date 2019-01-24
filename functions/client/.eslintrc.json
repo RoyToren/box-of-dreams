@@ -1,0 +1,17 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "document": true,
+    "window": true,
+    "fetch" : true
+  },
+  "extends": [
+  	"plugin:react/recommended"
+  ],
+  "rules": {
+    "react/prop-types": "off"
+  }
+}
