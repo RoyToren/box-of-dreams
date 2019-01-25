@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/client/build')); //serves the index.html
 
 // Import Routes directory
 require('./routes')(app);
-require('./services/mailService')(app);
+require('./services/mailService/mailService')(app);
 app.get('/', (req, res) => {
   //res.send('hello');
   res.sendFile(__dirname + '/client/build/index.html');
