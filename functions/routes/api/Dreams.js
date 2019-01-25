@@ -6,7 +6,7 @@ module.exports = (app) => {
   var storage = multer.memoryStorage()
   var upload = multer({ storage: storage })
   var admin = require('firebase-admin');
-  var serviceAccount = require('../../boxofdreams-e7838-firebase-adminsdk-xuirj-07976f64c8.json');
+  var serviceAccount = require('../../boxofdreams-ServiceAccount.json');
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
