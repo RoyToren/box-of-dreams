@@ -68,7 +68,7 @@ class App extends Component {
         <header className="App-header">
           ארגז של חלומות
         </header>
-        <body dir="rtl" style={{overflowX:"hidden"}}>
+        <body dir="rtl" style={{overflowX:"hidden", height: '100%'}}>
           <Dreams></Dreams>
         </body>
       </div>
