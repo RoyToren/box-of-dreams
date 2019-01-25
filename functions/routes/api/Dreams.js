@@ -2,7 +2,9 @@
 module.exports = (app) => {
 
   var multer  = require('multer');
-  var upload = multer({ dest: 'dreamImages/' })
+  var path = require('path');
+  var storage = multer.memoryStorage()
+  var upload = multer({ storage: storage })
   var admin = require('firebase-admin');
   var serviceAccount = require('../../boxofdreams-e7838-firebase-adminsdk-xuirj-07976f64c8.json');
 
@@ -111,14 +113,13 @@ module.exports = (app) => {
   app.post('/saveDreamImage', upload.single('avatar'), (req, res) => {
       if(req.file)
       {
-        
-        storageRef.upload(req.file.path, { destination: 'dreams_images/'+req.file.originalname }).then((snapshot) => {
-          snapshot[0].bucket.file(snapshot[1].name).getSignedUrl({
-            action: 'read',
-            expires: '03-09-2500'
-          }).then((signedUrl) => {
-            res.send(signedUrl[0]);
-          }); 
+        const filePath = path.join('dreams_images/',req.file.originalname)
+        storageRef.file(filePath).save(req.file.buffer);
+        storageRef.file(filePath).getSignedUrl({
+          action: 'read',
+          expires: '03-09-2500'
+        }).then((signedUrl) => {
+          res.send(signedUrl[0]);
         });
       }
      else {
