@@ -1,7 +1,5 @@
-import React, {Component} from 'react';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ToggleButton from '@material-ui/core/Switch';
+import React, { Component } from "react";
+import ToggleButton from "@material-ui/core/Switch";
 
 class DreamTile extends Component {
   constructor(props) {
@@ -16,21 +14,58 @@ class DreamTile extends Component {
 
   render() {
     return (
-        <form onSubmit={this.handleSubmit}>
-        <GridListTile key={this.props.dream.img}>
-                <img src={this.props.dream.imageDownloadURL.stringValue} alt={this.props.dream.dreamName.stringValue} />
-                <GridListTileBar style = {{direction: "ltr"}}
-                  title={this.props.dream.dreamName.stringValue}
-                  subtitle={<span>האם הוגשם: {this.props.dream.isDone.booleanValue ? 'כן' : 'לא'}</span>}
-                  actionIcon={
-                    <ToggleButton checked={this.props.dream.isDone.booleanValue} type="submit">
-                    </ToggleButton>
-                  }
-                />
-              </GridListTile>
-          </form>
+      <form onSubmit={this.handleSubmit} style={styles.tile}>
+        <div style={styles.topSection}>
+          <img
+            src={this.props.dream.imageDownloadURL.stringValue}
+            alt={this.props.dream.dreamName.stringValue}
+            style={styles.fillImage}
+          />
+        </div>
+        <div style={styles.bottomSection}>
+          <span style={styles.title}>{this.props.dream.dreamName.stringValue}</span>
+          <span>האם הוגשם: </span>
+          <ToggleButton checked={this.props.dream.isDone.booleanValue} type="submit"/>
+        </div>
+      </form>
     );
   }
 }
+
+const styles = {
+  tile: {
+    width: "100%",
+    height: "100%"
+  },
+  topSection: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    width: "100%",
+    height: "80%",
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+  },
+  fillImage: {
+    overflow: "hidden",
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  },
+  bottomSection: {
+    width: '100%',
+    height: '20%',
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    bottom: 0,
+    padding: 4,
+  },
+  title: {
+    display: 'block',
+    fontStyle: 'bold',
+    fontSize: 20
+  }
+};
 
 export default DreamTile;

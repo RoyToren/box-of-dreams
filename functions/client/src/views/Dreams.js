@@ -1,27 +1,28 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import AddButton from './AddButton';
-import DreamForm from './DreamForm';
-import FormData from 'form-data';
+import React, { Component } from "react";
+import axios from "axios";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import AddButton from "./AddButton";
+import DreamForm from "./DreamForm";
+import FormData from "form-data";
 import DreamTile from "./DreamTile";
 
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 
 const root = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-around',
-  overflow: 'hidden',
-  backgroundColor: 'white',
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "space-around",
+  overflow: "hidden",
+  backgroundColor: "white"
 };
 
 const gridList = {
-  width: '-webkit-fill-available',
-  height: '-webkit-fill-available',
+  width: "-webkit-fill-available",
+  height: "-webkit-fill-available"
 };
-
 
 class Dreams extends Component {
   constructor(props) {
@@ -29,96 +30,124 @@ class Dreams extends Component {
     this.state = {
       createDream: false,
       data: [],
-      loading: true,
+      loading: true
     };
     this.loader = this.loader.bind(this);
-
   }
 
   discardDream = () => {
-    this.setState({createDream: false});
-  }
+    this.setState({ createDream: false });
+  };
   createNewDream = () => {
-    this.setState({createDream: true});
-  }
+    this.setState({ createDream: true });
+  };
 
-  handleCheckedDream = (checkedDream) => {
-    axios.post('/toggleDreamIsDone', {
-      checkedDream,
-      }).then(() => {
+  handleCheckedDream = checkedDream => {
+    axios
+      .post("/toggleDreamIsDone", {
+        checkedDream
+      })
+      .then(() => {
         this.loader();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   loader = function() {
-    fetch('/getDreams')
+    fetch("/getDreams")
       .then(res => res.json())
       .then(dreams => {
         if (dreams) {
           this.setState({
             data: dreams.data,
-            loading: false,
+            loading: false
           });
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
-  handleSave = (dream) => {
+  handleSave = dream => {
     var avatar = new FormData();
-    avatar.append('avatar', dream.files[0]);
+    avatar.append("avatar", dream.files[0]);
 
-    axios.post('/saveDreamImage', avatar , {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then((response) => {
-      dream.files = undefined;
-      dream.imageDownloadURL = response.data;
-    axios.post('/saveDream', {
-      dream,
-    }).then((response) => {
-      this.loader();
+    axios
+      .post("/saveDreamImage", avatar, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       })
-      .catch((error) => {
+      .then(response => {
+        dream.files = undefined;
+        dream.imageDownloadURL = response.data;
+        axios
+          .post("/saveDream", {
+            dream
+          })
+          .then(response => {
+            this.loader();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      })
+      .catch(error => {
         console.log(error);
       });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
+  };
   componentWillMount() {
     this.loader();
   }
 
   render() {
-    if (!this.state.loading){
+    if (!this.state.loading) {
+      const dreamTiles = this.state.data.map(tile => (
+        <Grid key={tile.id} item style={styles.item}>
+          <Paper style={styles.paper}>
+            <DreamTile
+              key={tile.id}
+              dream={tile}
+              handleCheckedDream={this.handleCheckedDream}
+            />
+          </Paper>
+        </Grid>
+      ));
+
       return (
-        <div style={{root}}>
-          <GridList cellHeight={180} style={{gridList}}>
-            <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-              <ListSubheader component="div">חלומות</ListSubheader>
-            </GridListTile>
-            {this.state.data.map(tile => (
-              <DreamTile key={tile.id} dream={tile} handleCheckedDream={this.handleCheckedDream}></DreamTile>
-            ))}
-          </GridList>
-          <DreamForm createDream={this.state.createDream} exitCard={this.discardDream}
-            saveDream={this.handleSave}></DreamForm>
-          <AddButton handleClick={this.createNewDream}></AddButton>
+        <div style={{ root }}>
+          <Grid container style={styles.root} justify="center" spacing={8}>
+            {dreamTiles}
+          </Grid>
+
+          <DreamForm
+            createDream={this.state.createDream}
+            exitCard={this.discardDream}
+            saveDream={this.handleSave}
+          />
+          <AddButton handleClick={this.createNewDream} />
         </div>
       );
     }
-    return (
-      <div style={{root}}></div>
-    );
+    return <div style={{ root }} />;
   }
 }
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 300,
+    width: 300,
+    padding: 8
+  },
+  item: {
+    padding: 8
+  }
+};
 
 export default Dreams;
