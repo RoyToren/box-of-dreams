@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import AddButton from "./AddButton";
 import DreamForm from "./DreamForm";
 import FormData from "form-data";
@@ -19,16 +16,12 @@ const root = {
   backgroundColor: "white"
 };
 
-const gridList = {
-  width: "-webkit-fill-available",
-  height: "-webkit-fill-available"
-};
-
 class Dreams extends Component {
   constructor(props) {
     super(props);
     this.state = {
       createDream: false,
+      editDream: false,
       data: [],
       loading: true
     };
@@ -40,6 +33,10 @@ class Dreams extends Component {
   };
   createNewDream = () => {
     this.setState({ createDream: true });
+  };
+
+  editSelectedDream = (dream) => {
+    this.setState({ editDream: true });
   };
 
   handleCheckedDream = checkedDream => {
@@ -112,6 +109,7 @@ class Dreams extends Component {
               key={tile.id}
               dream={tile}
               handleCheckedDream={this.handleCheckedDream}
+              editSelectedDream={this.editSelectedDream}
             />
           </Paper>
         </Grid>
