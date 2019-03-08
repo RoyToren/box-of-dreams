@@ -31,16 +31,27 @@ module.exports = app => {
     });
   }
 
-  function formatRequestToMail(reqestBody) {
-    var message = "שם הפונה: " + reqestBody.name;
+  function formatRequestToMail(requestBody) {
+    var message = "שם הפונה: " + requestBody.name;
     message += "\n";
-    message += "טלפון: " + reqestBody.phone;
+    message += "טלפון: " + requestBody.phone;
     message += "\n";
-    message += "מייל: " + reqestBody.mail;
+    message += "מייל: " + requestBody.mail;
+    message += "\n";
     message += "\n";
     message += "הודעה מהפונה: ";
     message += "\n";
-    message += reqestBody.messageContent;
+    message += requestBody.messageContent;
+    message += "\n";
+    if (requestBody.dreamName !== undefined) {
+      message += "\n";
+      message += "נשלח בהקשר לחלום:";
+      message += "\n";
+      message += requestBody.dreamName;
+      message += "\n";
+      message += "\n";
+      message += requestBody.dreamDescription;
+    }
 
     return message;
   }
