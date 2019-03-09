@@ -35,7 +35,7 @@ class App extends Component {
       });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     var user = firebase.auth().currentUser;
     axios
       .post("/checkAuth", {

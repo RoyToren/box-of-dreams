@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import ToggleButton from "@material-ui/core/Switch";
 import EditButton from "@material-ui/icons/EditRounded";
 import IconButton from '@material-ui/core/IconButton';
+import DreamForm from "./DreamForm";
 
 class DreamTile extends Component {
   constructor(props) {
     super(props);
+    this.state= {
+      editDream: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.editSelectedDream = this.editSelectedDream.bind(this);
   }
@@ -14,9 +18,11 @@ class DreamTile extends Component {
     event.preventDefault();
     this.props.handleCheckedDream(this.props.dream);
   }
-
   editSelectedDream = () => {
-    this.props.editSelectedDream(this.props.dream);
+    this.setState({ editDream: true });
+  };
+  discardDream = () => {
+    this.setState({ editDream: false });
   };
 
   render() {
@@ -33,10 +39,16 @@ class DreamTile extends Component {
           <span style={styles.title}>{this.props.dream.dreamName.stringValue}</span>
           <span>האם הוגשם: </span>
           <ToggleButton checked={this.props.dream.isDone.booleanValue} type="submit"/>
-          <IconButton handleClick={this.editSelectedDream} aria-label="edit form" >
+          <IconButton onClick={this.editSelectedDream} aria-label="edit form" >
                <EditButton/>
           </IconButton>
         </div>
+        <DreamForm
+        editedDream={this.props.dream}
+        createDream={this.state.editDream}
+        exitCard={this.discardDream}
+        saveDream={null}
+       />
       </form>
     );
   }

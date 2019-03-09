@@ -21,7 +21,6 @@ class Dreams extends Component {
     super(props);
     this.state = {
       createDream: false,
-      editDream: false,
       data: [],
       loading: true
     };
@@ -33,10 +32,6 @@ class Dreams extends Component {
   };
   createNewDream = () => {
     this.setState({ createDream: true });
-  };
-
-  editSelectedDream = (dream) => {
-    this.setState({ editDream: true });
   };
 
   handleCheckedDream = checkedDream => {
@@ -96,7 +91,7 @@ class Dreams extends Component {
         console.log(error);
       });
   };
-  componentWillMount() {
+  componentDidMount() {
     this.loader();
   }
 
@@ -109,7 +104,6 @@ class Dreams extends Component {
               key={tile.id}
               dream={tile}
               handleCheckedDream={this.handleCheckedDream}
-              editSelectedDream={this.editSelectedDream}
             />
           </Paper>
         </Grid>
