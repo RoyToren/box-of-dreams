@@ -16,12 +16,12 @@ module.exports = (app) => {
 
   var db = admin.firestore();
   var storageRef = admin.storage().bucket();
-  let dreamQuery = db.collection('Dreams').orderBy('creation', 'desc');
+  let dreamQuery = db.collection('Dreams');
   let paramsQuery = db.collection('Params');
   let usersQuery = db.collection('Users');
 
   app.get('/getDreams', (req, res) => {
-    dreamQuery.get().then(querySnapshot => {
+    dreamQuery.orderBy('creation', 'desc').get().then(querySnapshot => {
       var data = [];
       querySnapshot.docs.forEach(document => {
         var dream = document._fieldsProto;
@@ -94,6 +94,12 @@ module.exports = (app) => {
       res.send('yay');
     } else {
       res.send('poop');
+    }
+  });
+
+  app.post('/deleteDream', (req, res) => {
+    if (req.body.dreamID) {
+      dreamQuery.de
     }
   });
 
