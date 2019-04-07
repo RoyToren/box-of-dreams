@@ -16,7 +16,7 @@ module.exports = (app) => {
 
   var db = admin.firestore();
   var storageRef = admin.storage().bucket();
-  let dreamQuery = db.collection('Dreams');
+  let dreamQuery = db.collection('Dreams').orderBy('creation', 'desc');
   let paramsQuery = db.collection('Params');
   let usersQuery = db.collection('Users');
 
