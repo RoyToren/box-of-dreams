@@ -94,7 +94,9 @@ class Dreams extends Component {
 
   handleDelete = (dream) => {
     axios.post("/deleteDream", { dream })
-          .then(response => this.loader())
+          .then(response => {
+            this.loader(); 
+          })
           .catch(error => console.log(error));
   }
 

@@ -100,8 +100,13 @@ module.exports = (app) => {
   app.post('/deleteDream', (req, res) => {
     if (req.body.dream) {
       dreamQuery.doc(req.body.dream.id).delete()
-        .then(() => console.log('Dream deleted successfully'))
+        .then(() => {
+          console.log('Dream deleted successfully');
+        })
         .catch((err) => console.log('Delete FAILED - Error: ' + err));
+        res.send('OK');
+    } else {
+      res.send('Error')
     }
   });
 
