@@ -91,6 +91,13 @@ class Dreams extends Component {
         console.log(error);
       });
   };
+
+  handleDelete = (dream) => {
+    axios.post("/deleteDream", { dream })
+          .then(response => this.loader())
+          .catch(error => console.log(error));
+  }
+
   componentDidMount() {
     this.loader();
   }
@@ -104,6 +111,7 @@ class Dreams extends Component {
               key={tile.id}
               dream={tile}
               handleCheckedDream={this.handleCheckedDream}
+              handleDelete={this.handleDelete}
             />
           </Paper>
         </Grid>

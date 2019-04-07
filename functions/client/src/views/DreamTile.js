@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ToggleButton from "@material-ui/core/Switch";
 import EditButton from "@material-ui/icons/EditRounded";
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import IconButton from '@material-ui/core/IconButton';
 import DreamForm from "./DreamForm";
 
@@ -25,6 +26,12 @@ class DreamTile extends Component {
     this.setState({ editDream: false });
   };
 
+  deleteDream = () => {
+    if (this.props.handleDelete) {
+      this.props.handleDelete(this.props.dream);
+    }
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit} style={styles.tile}>
@@ -41,6 +48,9 @@ class DreamTile extends Component {
           <ToggleButton checked={this.props.dream.isDone.booleanValue} type="submit"/>
           <IconButton onClick={this.editSelectedDream} aria-label="edit form" >
                <EditButton/>
+          </IconButton>
+          <IconButton onClick={this.deleteDream} aria-label="delete dream" >
+               <DeleteRoundedIcon />
           </IconButton>
         </div>
         <DreamForm

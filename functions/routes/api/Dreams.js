@@ -98,8 +98,10 @@ module.exports = (app) => {
   });
 
   app.post('/deleteDream', (req, res) => {
-    if (req.body.dreamID) {
-      dreamQuery.de
+    if (req.body.dream) {
+      dreamQuery.doc(req.body.dream.id).delete()
+        .then(() => console.log('Dream deleted successfully'))
+        .catch((err) => console.log('Delete FAILED - Error: ' + err));
     }
   });
 
