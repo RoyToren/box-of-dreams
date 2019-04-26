@@ -85,12 +85,26 @@ module.exports = (app) => {
       res.send('poop');
     }
   });
+
   app.post('/saveDream', (req, res) => {
-    if (req.body.dream) {
-      req.body.dream.creation = new Date().toLocaleString();
-      dreamQuery.add(req.body.dream).then(ref => {
-        console.log('added dream');
-      });
+    const dream = req.body.dream;
+    if (dream) {
+      if(!dream.creation){
+        dream.creation = new Date().toLocaleString();
+      }
+      if (req.body.dream.id) {
+        dreamQuery.doc(dream.id).set({
+            ...dream
+        }, {merge: true}).then(ref => {
+          console.log('dream edited');
+        });  
+      }
+      else
+      {
+        dreamQuery.add(dream).then(ref => {
+          console.log('dream added');
+        });
+      }
       res.send('yay');
     } else {
       res.send('poop');

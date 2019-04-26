@@ -63,7 +63,6 @@ class SimpleModal extends React.Component {
       dreamName: '',
       dreamDescription: '',
       dreamStages: '',
-      targetFinishDate: null,
       isDone: false,
       files: [],
       imageDownloadURL: '',
@@ -73,7 +72,15 @@ class SimpleModal extends React.Component {
   }
   componentDidMount(){
     if(this.props.editedDream)
-    this.setState({dreamName : this.props.editedDream.dreamName.stringValue});
+    this.setState({
+      id: this.props.editedDream.id,
+      creation : this.props.editedDream.creation.stringValue,
+      dreamName : this.props.editedDream.dreamName.stringValue,
+      dreamDescription : this.props.editedDream.dreamDescription.stringValue,
+      dreamStages : this.props.editedDream.dreamStages.stringValue,
+      imageDownloadURL : this.props.editedDream.imageDownloadURL.stringValue,
+      isDone : this.props.editedDream.isDone.booleanValue,
+    });
 
   }
 
@@ -107,12 +114,10 @@ class SimpleModal extends React.Component {
                 <ImageDrop onChange={this.handleImageInput}></ImageDrop>
                   <TextField id="dreamName" label="שם חלום" value={this.state.dreamName} className={classes.textField}
                     onChange={e => this.setState({dreamName: e.target.value})} margin="normal"/>
-                  <TextField id="dreamDescription" label="תיאור" className={classes.textField}
+                  <TextField id="dreamDescription" label="תיאור" value={this.state.dreamDescription} className={classes.textField}
                     onChange={e => this.setState({dreamDescription: e.target.value})} margin="normal"/>
-                  <TextField id="dreamStages" label="בכדי להגשים צריך:" className={classes.textField}
+                  <TextField id="dreamStages" label="בכדי להגשים צריך:" value={this.state.dreamStages} className={classes.textField}
                     onChange={e => this.setState({dreamStages: e.target.value})} margin="normal"/>
-                  <TextField id="finishDate" label="תאריך יעד" type="date" className={classes.textField} 
-                  onChange={e => this.setState({targetFinishDate: e.target.value})} margin="normal"/>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
                   <IconButton type='submit' aria-label="save form" >

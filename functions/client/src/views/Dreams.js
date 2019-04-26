@@ -39,7 +39,7 @@ class Dreams extends Component {
       .post("/toggleDreamIsDone", {
         checkedDream
       })
-      .then(() => {
+      .then((res) => {
         this.loader();
       })
       .catch(error => {
@@ -61,14 +61,24 @@ class Dreams extends Component {
       .catch(err => {
         console.log(err);
       });
-  };
+  };  
 
   handleSave = dream => {
-    var avatar = new FormData();
+    if(!dream.files){
+      axios.post("/saveDream", {
+        dream})
+      .then(response => {
+        this.loader();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+    else
+    {
+      var avatar = new FormData();
     avatar.append("avatar", dream.files[0]);
-
-    axios
-      .post("/saveDreamImage", avatar, {
+    axios.post("/saveDreamImage", avatar, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -76,20 +86,19 @@ class Dreams extends Component {
       .then(response => {
         dream.files = undefined;
         dream.imageDownloadURL = response.data;
-        axios
-          .post("/saveDream", {
-            dream
-          })
-          .then(response => {
-            this.loader();
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        axios.post("/saveDream", {
+          dream})
+        .then(response => {
+          this.loader();
+        })
+        .catch(error => {
+          console.log(error);
+        });
       })
       .catch(error => {
         console.log(error);
       });
+    }
   };
 
   handleDelete = (dream) => {
@@ -114,6 +123,7 @@ class Dreams extends Component {
               dream={tile}
               handleCheckedDream={this.handleCheckedDream}
               handleDelete={this.handleDelete}
+              saveDream={this.handleSave}
             />
           </Paper>
         </Grid>

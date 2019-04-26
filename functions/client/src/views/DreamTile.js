@@ -34,7 +34,7 @@ class DreamTile extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} style={styles.tile}>
+      <form style={styles.tile}>
         <div style={styles.topSection}>
           <img
             src={this.props.dream.imageDownloadURL.stringValue}
@@ -45,7 +45,7 @@ class DreamTile extends Component {
         <div style={styles.bottomSection}>
           <span style={styles.title}>{this.props.dream.dreamName.stringValue}</span>
           <span>האם הוגשם: </span>
-          <ToggleButton checked={this.props.dream.isDone.booleanValue} type="submit"/>
+          <ToggleButton checked={this.props.dream.isDone.booleanValue} onClick={this.handleSubmit}/>
           <IconButton onClick={this.editSelectedDream} aria-label="edit form" >
                <EditButton/>
           </IconButton>
@@ -57,7 +57,7 @@ class DreamTile extends Component {
         editedDream={this.props.dream}
         createDream={this.state.editDream}
         exitCard={this.discardDream}
-        saveDream={null}
+        saveDream={this.props.saveDream}
        />
       </form>
     );
