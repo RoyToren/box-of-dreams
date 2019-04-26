@@ -41,9 +41,11 @@ class Dreams extends Component {
       })
       .then((res) => {
         this.loader();
+        return true;
       })
       .catch(error => {
         console.log(error);
+        throw error;
       });
   };
 
@@ -57,9 +59,11 @@ class Dreams extends Component {
             loading: false
           });
         }
+        return true;
       })
       .catch(err => {
         console.log(err);
+        throw err;
       });
   };  
 
@@ -69,9 +73,11 @@ class Dreams extends Component {
         dream})
       .then(response => {
         this.loader();
+        return true;
       })
       .catch(error => {
         console.log(error);
+        throw error;
       });
     }
     else
@@ -89,14 +95,18 @@ class Dreams extends Component {
         axios.post("/saveDream", {
           dream})
         .then(response => {
-          this.loader();
+          setTimeout(this.loader(), 15000);
+          return true;
         })
         .catch(error => {
           console.log(error);
+          throw error;
         });
+        return true;
       })
       .catch(error => {
         console.log(error);
+        throw error;
       });
     }
   };
@@ -105,8 +115,12 @@ class Dreams extends Component {
     axios.post("/deleteDream", { dream })
           .then(response => {
             this.loader(); 
+            return true;
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            console.log(error);
+            throw error;
+          });
   }
 
   componentDidMount() {

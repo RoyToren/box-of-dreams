@@ -80,6 +80,7 @@ class SimpleModal extends React.Component {
       dreamStages : this.props.editedDream.dreamStages.stringValue,
       imageDownloadURL : this.props.editedDream.imageDownloadURL.stringValue,
       isDone : this.props.editedDream.isDone.booleanValue,
+      files : undefined,
     });
 
   }
