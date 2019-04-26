@@ -28,8 +28,8 @@ module.exports = (app) => {
         dream.id = document.id;
         data.push(dream);
       });
-      res.send({data});
-    });
+     return res.send({data});
+    }).catch(err => {return res.send('get dreams failed:' + err)});
   });
 
   app.post('/authenticate', (req, res) => {
@@ -40,23 +40,23 @@ module.exports = (app) => {
           usersQuery.doc(req.body.authData.user.email)
           .update({isAuthenticated: true}).then(ref => {
             console.log('changed isDone');
-            res.send(true);
-          });
+            return res.send(true);
+          }).catch(err => {return res.send('failed to update auth of user'+ err)});
         }
         else
         {
-          res.send('wrong password');
+          return res.send('wrong password');
         }
-        res.send('poop');
-      });
+        return res.send('good auth');
+      }).catch(err => {return res.send('failed to auth with password: ' + err)});
     }
   });
 
   app.post('/checkAuth', (req, res) => {
     if (req.body.user) {
       usersQuery.doc(req.body.user.email).get().then(querySnapshot => {
-        res.send(querySnapshot._fieldsProto.isAuthenticated.booleanValue);
-      });
+        return res.send(querySnapshot._fieldsProto.isAuthenticated.booleanValue);
+      }).catch(err => {res.send("failed to checkAuth: " + err)});
     }
   });
 
@@ -64,22 +64,20 @@ module.exports = (app) => {
     if (req.body.user) {
       usersQuery.doc(req.body.user.email).get().then(querySnapshot => {
         if(querySnapshot.exists) {
-          res.send(true);
+         return res.send(true);
         } else {
           usersQuery.doc(req.body.user.email).set({
             isAuthenticated: false,
-        })
-        .then(() => {
-            res.send('yay');
+        }).then(() => {
             console.log("Document successfully written!");
-        })
-        .catch((error) => {
+            return res.send('yay');
+        }).catch((error) => {
             console.error("Error writing document: ", error);
+            return res.send('error saving user: ' + error);
         });
         }
-        
-        
-      })
+        return res.send('successful save user');
+      }).catch(err => { return res.send('couldnt get user: ' + err)})
     
     } else {
       res.send('poop');
@@ -97,17 +95,22 @@ module.exports = (app) => {
             ...dream
         }, {merge: true}).then(ref => {
           console.log('dream edited');
+          return res.send('dream edited successfully');
+        }).catch(reason => {
+          return res.send('edit dream failed: ' + reason);
         });  
       }
       else
       {
         dreamQuery.add(dream).then(ref => {
           console.log('dream added');
+          return res.send('added dream successful');
+        }).catch( reason => {
+          res.send('failed to add dream: ' + err);
         });
       }
-      res.send('yay');
     } else {
-      res.send('poop');
+      res.send('failed to add dream: no dream is in the request');
     }
   });
 
@@ -116,11 +119,12 @@ module.exports = (app) => {
       dreamQuery.doc(req.body.dream.id).delete()
         .then(() => {
           console.log('Dream deleted successfully');
+          return res.send("dream deleted successfully")
         })
-        .catch((err) => console.log('Delete FAILED - Error: ' + err));
-        res.send('OK');
+        .catch((err) => {console.log('Delete FAILED - Error: ' + err);
+        res.send('Delete FAILED - Error: ' + err);})
     } else {
-      res.send('Error')
+      res.send('error in deleting the dream')
     }
   });
 
@@ -129,10 +133,11 @@ module.exports = (app) => {
       dreamQuery.doc(req.body.checkedDream.id)
           .update({isDone: !req.body.checkedDream.isDone.booleanValue}).then(ref => {
             console.log('changed isDone');
-            res.send(true);
-          });
+            return res.send("dream done toggle success");
+          })
+          .catch(err => {res.send('dream done toggle failed:' + err)});
     } else {
-      res.send('poop');
+      res.send('dream done toggle failed - body incorrect');
     }
   });
   
@@ -146,11 +151,15 @@ module.exports = (app) => {
           action: 'read',
           expires: '03-09-2500'
         }).then((signedUrl) => {
-          res.send(signedUrl[0]);
+          return res.send(signedUrl[0]);
+        }).catch(reason =>
+        {
+          console.log(reason);
+          res.send('failed to save image: ' + reason);
         });
       }
      else {
-      res.send('poop');
+      res.send('no file found in request');
     }
   });
 };

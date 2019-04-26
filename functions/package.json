@@ -44,5 +44,8 @@
     "routes": "./fucntions/routes",
     "server": "./functions"
   },
+  "engines": {
+    "node": "8"
+  },
   "private": true
 }
