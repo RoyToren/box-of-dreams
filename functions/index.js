@@ -2,10 +2,33 @@ const express = require('express');
 const functions = require('firebase-functions');
 const app = express();
 const port = 5000;
+const cors = require("cors");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/client/build')); //serves the index.html
+
+app.use(cors({
+  'allowedHeaders': [
+      'sessionId', 'Content-Type'
+  ],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}));
+
+const {fileParser} = require('express-multipart-file-parser'); //
+app.use(fileParser({
+    rawBodyOptions: {
+        limit: '15mb', //file size limit
+    },
+    busboyOptions: {
+        limits: {
+            fields: 20 //Number text fields allowed
+        }
+    }
+}))
 
 // Import Routes directory
 require('./routes')(app);

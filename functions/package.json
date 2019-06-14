@@ -17,6 +17,7 @@
   "dependencies": {
     "concurrently": "^3.5.1",
     "es6-promise": "^4.2.5",
+    "express-multipart-file-parser": "^0.1.2",
     "express": "^4.16.4",
     "firebase-admin": "~6.0.0",
     "firebase-functions": "^2.1.0",
@@ -26,6 +27,8 @@
     "node-fetch": "^2.3.0",
     "nodemailer": "^5.1.1",
     "nodemon": "^1.18.9",
+    "uuid": "^3.3.2",
+    "cors": "^2.8.4",
     "react-router-dom": "^4.3.1",
     "redux-saga": "^0.16.0"
   },
