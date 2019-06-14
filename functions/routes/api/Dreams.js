@@ -12,8 +12,8 @@ module.exports = (app) => {
         credential: admin
             .credential
             .cert(serviceAccount),
-        databaseURL: 'https://boxofdreams-e7838.firebaseio.com',
-        storageBucket: 'gs://boxofdreams-e7838.appspot.com'
+        databaseURL: 'https://box-of-dreams-test.firebaseio.com',
+        storageBucket: 'gs://box-of-dreams-test.appspot.com'
     });
 
     var db = admin.firestore();
