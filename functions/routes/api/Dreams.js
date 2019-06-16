@@ -6,7 +6,7 @@ module.exports = (app) => {
     const upload = multer({storage: storage})
     const admin = require('firebase-admin');
     const serviceAccount = require('../../boxofdreams-ServiceAccount.json');
-    const uuidv4 = require('uuid/v4'); //to give unique name to each file
+    const uuidv4 = require('../../node_modules/uuid/v4'); //to give unique name to each file
 
     admin.initializeApp({
         credential: admin
@@ -192,7 +192,7 @@ module.exports = (app) => {
 
     app.post('/saveDreamImage', (req, res) => {
         if (req.files[0]) {
-            const filePath = path.join('dreams_images/', req.files[0].originalname)
+            const filePath = uuidv4() + req.files[0].originalname;
             storageRef
                 .file(filePath)
                 .save(req.files[0].buffer);
