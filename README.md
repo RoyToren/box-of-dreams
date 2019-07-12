@@ -1,11 +1,16 @@
-box of dreams
+# Box Of Dreams
+This is the repository for the box of dreams web app.
 
-if you want to run in dev mode:
-go to functions folder, than use: npm run dev
+**To contribute to the project, please contact RoyToren or Amit Hanoch for details**
+  
+###For developers:
+> Note: Only the the Test branch should run with the config of the production environment.
+- Running the code for quick development
+    - Under the functions directory run: ``` npm run dev ```
 
-if you want to run in production:
-first run in client folder: run npm build
-than, run in root folder firebase serve --only functions,hosting(takes client build)
+- Running the code to inspect production before deploy
+    - Under the client directory run: ``` npm run build ```
+    - Under the root directory run: ``` firebase serve --only functions,hosting ```
 
-if you want to deploy:
-run in root folder: firebase deploy
+- Deploy
+    -  Under the root directory run: ``` firebase deploy ```

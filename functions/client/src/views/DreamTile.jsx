@@ -30,7 +30,7 @@ class DreamTile extends Component {
     if (this.props.handleDelete) {
       this.props.handleDelete(this.props.dream);
     }
-  }
+  };
 
   render() {
     return (

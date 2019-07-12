@@ -7,10 +7,9 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import {firebaseConfig} from './../firebaseConf'
 // Views
 import { App } from './app';
-const config = firebaseConfig;
 
 // This must run before any other firebase functions
-firebase.initializeApp(config)
+firebase.initializeApp(firebaseConfig);
 
 // This is our firebaseui configuration object
 const uiConfig = ({
@@ -19,7 +18,7 @@ const uiConfig = ({
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID
   ],
-})
+});
 
 
 firebase.auth().onAuthStateChanged((user) => {
@@ -33,6 +32,7 @@ firebase.auth().onAuthStateChanged((user) => {
                   <Route exact path='/' component={App}/>
                   </Router>
                   , document.getElementById('root'));
+              return true;
               })
               .catch((error) => {
                 console.log(error);
@@ -41,7 +41,7 @@ firebase.auth().onAuthStateChanged((user) => {
    else {
     // logout
   }
-})
+});
 
 // This adds firebaseui to the page
 // It does everything else on its own

@@ -1,9 +1,5 @@
 module.exports = (app) => {
 
-    const multer = require('multer');
-    const path = require('path');
-    const storage = multer.memoryStorage()
-    const upload = multer({storage: storage})
     const admin = require('firebase-admin');
     const serviceAccount = require('../../boxofdreams-ServiceAccount.json');
     const uuidv4 = require('../../node_modules/uuid/v4'); //to give unique name to each file
@@ -16,8 +12,8 @@ module.exports = (app) => {
         storageBucket: 'gs://box-of-dreams-test.appspot.com'
     });
 
-    var db = admin.firestore();
-    var storageRef = admin
+    const db = admin.firestore();
+    const storageRef = admin
         .storage()
         .bucket();
     let dreamQuery = db.collection('Dreams');
@@ -29,11 +25,11 @@ module.exports = (app) => {
             .orderBy('creation', 'desc')
             .get()
             .then(querySnapshot => {
-                var data = [];
+                let data = [];
                 querySnapshot
                     .docs
                     .forEach(document => {
-                        var dream = document._fieldsProto;
+                        let dream = document._fieldsProto;
                         dream.id = document.id;
                         data.push(dream);
                     });
@@ -54,7 +50,7 @@ module.exports = (app) => {
                         usersQuery
                             .doc(req.body.authData.user.email)
                             .update({isAuthenticated: true})
-                            .then(ref => {
+                            .then(()=> {
                                 console.log('changed isDone');
                                 return res.send(true);
                             })
@@ -130,7 +126,7 @@ module.exports = (app) => {
                     .set({
                         ...dream
                     }, {merge: true})
-                    .then(ref => {
+                    .then(() => {
                         console.log('dream edited');
                         return res.send('dream edited successfully');
                     })
@@ -140,12 +136,12 @@ module.exports = (app) => {
             } else {
                 dreamQuery
                     .add(dream)
-                    .then(ref => {
+                    .then(res => {
                         console.log('dream added');
                         return res.send('added dream successful');
                     })
                     .catch(reason => {
-                        res.send('failed to add dream: ' + err);
+                        res.send('failed to add dream: ' + reason);
                     });
             }
         } else {
@@ -158,7 +154,7 @@ module.exports = (app) => {
             dreamQuery
                 .doc(req.body.dream.id)
                 .delete()
-                .then(() => {
+                .then(res => {
                     console.log('Dream deleted successfully');
                     return res.send("dream deleted successfully")
                 })
@@ -178,7 +174,7 @@ module.exports = (app) => {
                 .update({
                     isDone: !req.body.checkedDream.isDone.booleanValue
                 })
-                .then(ref => {
+                .then(() => {
                     console.log('changed isDone');
                     return res.send("dream done toggle success");
                 })

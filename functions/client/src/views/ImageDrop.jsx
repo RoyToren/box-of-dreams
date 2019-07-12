@@ -25,7 +25,7 @@ const thumbInner = {
   display: 'flex',
   minWidth: 0,
   overflow: 'hidden'
-}
+};
 
 const img = {
   display: 'block',
@@ -93,10 +93,10 @@ class ImageDrop extends Component {
         accept="image/*"
         onDrop={this.onDrop.bind(this)}>
         {({getRootProps, getInputProps, isDragActive,
-         isDragAccept, isDragReject, acceptedFiles, rejectedFiles }) => {
-          let styles = {...baseStyle}
-          styles = isDragActive ? {...styles, ...activeStyle} : styles
-          styles = isDragReject ? {...styles, ...rejectStyle} : styles
+         isDragAccept, isDragReject }) => {
+          let styles = {...baseStyle};
+          styles = isDragActive ? {...styles, ...activeStyle} : styles;
+          styles = isDragReject ? {...styles, ...rejectStyle} : styles;
       return (
           <div {...getRootProps()}
           style={styles}>

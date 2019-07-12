@@ -39,7 +39,7 @@ class Dreams extends Component {
       .post("/toggleDreamIsDone", {
         checkedDream
       })
-      .then((res) => {
+      .then(() => {
         this.loader();
         return true;
       })
@@ -71,7 +71,7 @@ class Dreams extends Component {
     if(!dream.files){
       axios.post("/saveDream", {
         dream})
-      .then(response => {
+      .then(() => {
         this.loader();
         return true;
       })
@@ -82,7 +82,7 @@ class Dreams extends Component {
     }
     else
     {
-      var avatar = new FormData();
+      let avatar = new FormData();
     avatar.append("avatar", dream.files[0]);
     axios.post("/saveDreamImage", avatar, {
         headers: {
@@ -94,7 +94,7 @@ class Dreams extends Component {
         dream.imageDownloadURL = response.data;
         axios.post("/saveDream", {
           dream})
-        .then(response => {
+        .then(() => {
           setTimeout(this.loader(), 15000);
           return true;
         })
@@ -113,7 +113,7 @@ class Dreams extends Component {
 
   handleDelete = (dream) => {
     axios.post("/deleteDream", { dream })
-          .then(response => {
+          .then(() => {
             this.loader(); 
             return true;
           })
@@ -121,7 +121,7 @@ class Dreams extends Component {
             console.log(error);
             throw error;
           });
-  }
+  };
 
   componentDidMount() {
     this.loader();
