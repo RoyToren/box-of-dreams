@@ -5,6 +5,8 @@ This is the repository for the box of dreams web app.
   
 ###For developers:
 > Note: Only the the Test branch should run with the config of the production environment.
+
+> Master branch should be in sync with the current production build
 - Running the code for quick development
     - Under the functions directory run: ``` npm run dev ```
 

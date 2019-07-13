@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import * as firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import {firebaseConfig} from './../firebaseConf'
 // Views

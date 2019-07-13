@@ -1,10 +1,12 @@
 const express = require('express');
+const compression = require('compression');
 const functions = require('firebase-functions');
 const app = express();
 const port = 5000;
 const cors = require("cors");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(compression());
 app.use(express.json());
 app.use(express.static(__dirname + '/client/build')); //serves the index.html
 

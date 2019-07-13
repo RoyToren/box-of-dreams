@@ -6,7 +6,7 @@ class AddButton extends Component {
   render() {
     return (
       <div>
-        <Fab color="rgb(38,112,204)" onClick={this.props.handleClick} aria-label="Add" className="fab" style={styles.fab}>
+        <Fab onClick={this.props.handleClick} aria-label="Add" className="fab" style={styles.fab}>
           <AddIcon />
         </Fab>
       </div>

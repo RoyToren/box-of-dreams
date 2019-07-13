@@ -7,7 +7,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
+import 'firebase/auth';
 //import Welcome from './Welcome';
 class App extends Component {
   constructor(props) {
@@ -80,9 +81,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header" style={styles.header}>
-          <AppBar position="static" color="rgb(38,112,204)" style={styles.appbar}>
+          <AppBar position="static" style={styles.appbar}>
             <Toolbar>
-              <Typography variant="h4" color="white" style={styles.topography}>
+              <Typography variant="h4" style={styles.topography}>
                 ארגז של חלומות - ניהול אפליקציה
               </Typography>
             </Toolbar>

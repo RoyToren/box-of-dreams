@@ -145,7 +145,7 @@ class Dreams extends Component {
 
       return (
         <div style={{ root }}>
-          <Grid container style={styles.root} justify="center" spacing={8}>
+          <Grid container style={styles.root} justify="center" >
             {dreamTiles}
           </Grid>
 

@@ -45,8 +45,8 @@ const styles = theme => ({
     transform: 'rotate(180deg)',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
     direction: 'rtl',
     width: 200,
   },
