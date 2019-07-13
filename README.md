@@ -3,7 +3,7 @@ This is the repository for the box of dreams web app.
 
 **To contribute to the project, please contact RoyToren or Amit Hanoch for details**
   
-###For developers:
+### For developers:
 > Note: Only the the Test branch should run with the config of the production environment.
 
 > Master branch should be in sync with the current production build
