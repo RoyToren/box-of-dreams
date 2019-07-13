@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './views/css/styles.css';
+import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Views
@@ -10,3 +11,6 @@ ReactDOM.render(
     <Route exact path='/' component={StartFirebaseUI}/>
   </Router>
   , document.getElementById('root'));
+
+serviceWorker.register();
+

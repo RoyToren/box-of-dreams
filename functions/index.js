@@ -36,7 +36,6 @@ app.use(compression());
 require('./routes')(app);
 require('./services/mailService/mailService')(app);
 app.get('/', (req, res) => {
-  //res.send('hello');
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
