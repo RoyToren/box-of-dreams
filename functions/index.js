@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const compression = require('compression');
 const functions = require('firebase-functions');
@@ -6,9 +7,8 @@ const port = 5000;
 const cors = require("cors");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(compression());
 app.use(express.json());
-app.use(express.static(__dirname + '/client/build')); //serves the index.html
+app.use(express.static(path.join(__dirname, '/client/build'))); //serves the index.html
 
 app.use(cors({
   'allowedHeaders': [
@@ -20,7 +20,7 @@ app.use(cors({
   'preflightContinue': false
 }));
 
-const {fileParser} = require('express-multipart-file-parser'); //
+const {fileParser} = require('express-multipart-file-parser');
 app.use(fileParser({
     rawBodyOptions: {
         limit: '15mb', //file size limit
@@ -30,18 +30,18 @@ app.use(fileParser({
             fields: 20 //Number text fields allowed
         }
     }
-}))
-
+}));
+app.use(compression());
 // Import Routes directory
 require('./routes')(app);
 require('./services/mailService/mailService')(app);
 app.get('/', (req, res) => {
   //res.send('hello');
-  res.sendFile(__dirname + '/client/build/index.html');
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
 app.listen(port, (err) => {
-  if (err) { console.log(err); };
+  if (err) { console.log(err); }
   console.log('Listening on port ' + port);
 });
 
